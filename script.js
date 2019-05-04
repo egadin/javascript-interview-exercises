@@ -26,7 +26,14 @@
     var ul = document.getElementById("list");
     var li = document.createElement("li");
     li.appendChild(document.createTextNode("Company name: "+company.name+", location: "+company.location));
+    li.onclick = clickFunction
     ul.appendChild(li);
   }
 
+  function clickFunction() {
+    this.style.color = 'red'
+    setTimeout(() => {
+      this.style.color = 'lightgray'  
+    }, 2000);
+  }
 })()
