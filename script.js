@@ -8,7 +8,7 @@
     {id: 5, name: 'Leeroy', location: 'Sundsvall'},
     {id: 6, name: 'Tesla', location: 'Palo Alto'}
   ]
-
+  
   function cut(companies) {
     const cutCompanies = []
     for(let each of companies) {
@@ -25,6 +25,7 @@
   function createLi(company) {
     var ul = document.getElementById("list");
     var li = document.createElement("li");
+    li.className = company.location;
     li.appendChild(document.createTextNode("Company name: "+company.name+", location: "+company.location));
     ul.appendChild(li);
   }
@@ -38,5 +39,31 @@
     }
   });
 
+  const uniqueLocations = [...new Set(companies.map(x => x.location))];
+  var fil = document.getElementById("filter");
+  for(let each of uniqueLocations){
+    var lf = document.createElement('input');
+    var lt = document.createElement("P");
+    lf.setAttribute('type', 'checkbox');
+    lf.setAttribute('name', each);
+    lt.appendChild(document.createTextNode(each));
+    lf.setAttribute('checked', 'true')
+    lf.addEventListener('change', function(event) {
+      changeState(event.target.name);
+    });
+    fil.appendChild(lt)
+    fil.appendChild(lf)
+  }
 
+  function changeState(className) {
+    const items = document.getElementsByClassName(className)
+    for(let each of items) {
+      if (each.style.display != "none") {
+        each.style.display = "none";
+      }
+      else {
+        each.style.display = "block";
+      }
+    }
+  }
 })()
