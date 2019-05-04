@@ -26,14 +26,17 @@
     var ul = document.getElementById("list");
     var li = document.createElement("li");
     li.appendChild(document.createTextNode("Company name: "+company.name+", location: "+company.location));
-    li.onclick = clickFunction
     ul.appendChild(li);
   }
 
-  function clickFunction() {
-    this.style.color = 'red'
-    setTimeout(() => {
-      this.style.color = 'lightgray'  
-    }, 2000);
-  }
+  //adding eventhandler with clickfunction bound to ul instead and using it on the target
+  document.getElementById("list").addEventListener("click", function(e) { {
+      e.target.style.color = "red"; 
+      setTimeout(() => {
+        e.target.style.color = 'lightgray'  
+      }, 2000);
+    }
+  });
+
+
 })()
