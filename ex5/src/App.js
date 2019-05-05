@@ -2,15 +2,7 @@ import React from 'react';
 import './App.css';
 import Companylist from './components/Companylist';
 import FilterList from './components/Filterlist'
-
-const companies = [
-  {id: 1, name: 'Amazon', location: 'Seattle'},
-  {id: 2, name: 'Apple', location: 'Cupertino'},
-  {id: 3, name: 'Facebook', location: 'Menlo Park'},
-  {id: 4, name: 'Google', location: 'Mountain View'},
-  {id: 5, name: 'Leeroy', location: 'Sundsvall'},
-  {id: 6, name: 'Tesla', location: 'Palo Alto'}
-];
+import companies from './Companies';
 
 const locations = new Set(companies.map(x => x.location));
 
@@ -32,26 +24,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <FilterList
-          locations={ locations }
-          onFilterChange={(item, filtered) => {
-            this.setState({
-              visible: {
-                ...this.state.visible,
-                [item]: filtered
-              }
-            });
-            console.log({
-              visible: {
-                ...this.state.visible,
-                [item]: filtered
-              }
-            });
-          }}
-        />
-      <Companylist
-        companies={ companies.filter(company => this.state.visible[company.location]) }
-      />
+        <FilterList />
+        <Companylist />
       </div>
     );
   }

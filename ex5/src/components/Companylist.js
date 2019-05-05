@@ -1,7 +1,8 @@
 import React from 'react';
+import companies from '../Companies';
+import { connect } from 'react-redux';
 
 function Companylist(props) {
-
   function onClick (e) {
     let elem = e.target;
     elem.style.color = "red"; 
@@ -10,10 +11,11 @@ function Companylist(props) {
       }, 2000);
     }
 
-  const comp = props.companies;
-  const companyList = comp.map((each) => { 
-    return(
-    <li key={ each.name } className={each.location}>{"Company name: "+each.name+", location: "+each.location}</li>
+  const companyList = companies.filter(company => {
+    return props.visible[company.location];
+  }).map((each) => { 
+    return (
+      <li key={ each.name } className={each.location}>{"Company name: "+each.name+", location: "+each.location}</li>
     );
   });
 
@@ -22,4 +24,10 @@ function Companylist(props) {
   );
 }
 
-export default Companylist;
+export default connect(
+  state => {
+    return {
+      visible: state.visible
+    };
+  }
+)(Companylist);

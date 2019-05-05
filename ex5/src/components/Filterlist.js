@@ -1,52 +1,43 @@
 import React from 'react';
-import App from '../App';
-import ReactDOM from 'react-dom';
-import Companylist from './Companylist';
+import { connect } from 'react-redux';
+import { changeVisibility } from '../actions/ChangeVisibility';
+import { locations } from '../Companies';
 
-class FilterList extends React.Component {
-  constructor (props)
-  {
-    super(props);
 
-    let items = Array.from(this.props.locations);
+function FilterList(props) {
 
-    this.state = {
-      items,
-      enabled: [...new Array(items.length)].map(_ => true)
-    };
-  }
+  const filterList = Array.from(locations).map(each => (
+    <div key={ each }>
+      <p>{ each }</p>
+      <input
+        type="checkbox"
+        checked={ props.visible[each] }
+        onChange={(e) => {
+          props.changeVisibility(each, e.target.checked);
+        }}
+      />
+    </div>
+  ));
 
-  render() {
-    console.log(this.state.enabled);
-
-    const filterList = this.state.items.map((each, i) => (
-      <div key={ each }>
-        <p>{ each }</p>
-        <input
-          type="checkbox"
-          checked={ this.state.enabled[i] }
-          onChange={(e) => {
-            let newEnabled = [...this.state.enabled];
-            newEnabled[i] = e.target.checked;
-
-            console.log(newEnabled);
-
-            this.setState({
-              enabled: newEnabled
-            });
-            this.props.onFilterChange(each, e.target.checked);
-          }}
-        />
-      </div>
-    ));
-
-    return (
-      <div>
-        <h2>Filter on locations by selecting boxes</h2>
-        { filterList }
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h2>Filter on locations by selecting boxes</h2>
+      { filterList }
+    </div>
+  );
 }
 
-export default FilterList;
+export default connect(
+  state => {
+    return {
+      visible: state.visible
+    };
+  },
+  dispatch => {
+    return {
+      changeVisibility: (location, visible) => {
+        dispatch(changeVisibility(location, visible));
+      }
+    };
+  }
+)(FilterList);
